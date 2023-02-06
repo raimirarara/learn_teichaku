@@ -1,5 +1,9 @@
+import { AppFooter } from "@/components/common/AppFooter";
+import { AppHeader } from "@/components/common/AppHeader";
+import { AppNavbar } from "@/components/common/AppNavbar";
 import "@/styles/globals.css";
-import { MantineProvider } from "@mantine/core";
+import { AppShell, MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -27,7 +31,25 @@ export default function App({ Component, pageProps }: AppProps) {
         },
       }}
     >
-      <Component {...pageProps} />
+      <NotificationsProvider>
+        <AppShell
+          padding="md"
+          navbarOffsetBreakpoint={"md"}
+          navbar={undefined}
+          header={<AppHeader />}
+          footer={<AppFooter />}
+          styles={(theme) => ({
+            main: {
+              backgroundColor:
+                theme.colorScheme === "dark"
+                  ? theme.colors.dark[8]
+                  : theme.colors.gray[0],
+            },
+          })}
+        >
+          <Component {...pageProps} />
+        </AppShell>
+      </NotificationsProvider>
     </MantineProvider>
   );
 }
